@@ -30,9 +30,7 @@ class MainActivity : AppCompatActivity() {
         val Layouts: ArrayList<ConstraintLayout> = arrayListOf(lproduct1, lproduct2, lproduct3, lproduct4, lproduct5, lproduct6, lproduct7, lproduct8, lproduct9)
         val Textviews: ArrayList<TextView> = arrayListOf(product1cont, product2cont, product3cont, product4cont, product5cont, product6cont, product7cont, product8cont, product9cont)
 
-        for ((index, layout) in Layouts.withIndex()){
-            layout.setOnClickListener { refreshCount(Textviews[index]) }
-        }
+        Layouts.forEachIndexed { index, layout -> layout.setOnClickListener { refreshCount(Textviews[index]) } }
 
         sendbutton.setOnClickListener {
 

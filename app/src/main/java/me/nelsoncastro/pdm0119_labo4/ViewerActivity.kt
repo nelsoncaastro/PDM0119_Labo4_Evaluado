@@ -23,6 +23,7 @@ class ViewerActivity : AppCompatActivity() {
         vusuario.text = jsonroot.getString("username")
         vcorreo.text = jsonroot.getString("email")
         vtotal.text = jsonroot.getString("total")
+
         for ((index, cont) in Textviews.withIndex()){
            cont.text = jsonproducts[index].toString()
         }
