@@ -3,7 +3,10 @@ package me.nelsoncastro.pdm0119_labo4
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.widget.TextView
 import kotlinx.android.synthetic.main.activity_viewer.*
+import org.json.JSONArray
+import org.json.JSONObject
 
 class ViewerActivity : AppCompatActivity() {
 
@@ -12,19 +15,16 @@ class ViewerActivity : AppCompatActivity() {
         setContentView(R.layout.activity_viewer)
 
         val recieverBundle = intent
+        val Textviews: ArrayList<TextView> = arrayListOf(vproduct1cont, vproduct2cont, vproduct3cont, vproduct4cont, vproduct5cont, vproduct6cont, vproduct7cont, vproduct8cont, vproduct9cont)
+        val jsonroot = JSONObject(recieverBundle.getStringExtra("json"))
+        val jsonproducts = jsonroot.getJSONArray("products")
 
-        vproduct1cont.text = recieverBundle.getStringArrayListExtra("productos")[0]
-        vproduct2cont.text = recieverBundle.getStringArrayListExtra("productos")[1]
-        vproduct3cont.text = recieverBundle.getStringArrayListExtra("productos")[2]
-        vproduct4cont.text = recieverBundle.getStringArrayListExtra("productos")[3]
-        vproduct5cont.text = recieverBundle.getStringArrayListExtra("productos")[4]
-        vproduct6cont.text = recieverBundle.getStringArrayListExtra("productos")[5]
-        vproduct7cont.text = recieverBundle.getStringArrayListExtra("productos")[6]
-        vproduct8cont.text = recieverBundle.getStringArrayListExtra("productos")[7]
-        vproduct9cont.text = recieverBundle.getStringArrayListExtra("productos")[8]
-        vusuario.text = recieverBundle.getStringExtra("username")
-        vcorreo.text = recieverBundle.getStringExtra("email")
-        vtotal.text = recieverBundle.getStringExtra("total")
+        vusuario.text = jsonroot.getString("username")
+        vcorreo.text = jsonroot.getString("email")
+        vtotal.text = jsonroot.getString("total")
+        for ((index, cont) in Textviews.withIndex()){
+           cont.text = jsonproducts[index].toString()
+        }
 
         sharebutton.setOnClickListener {
             val shareIntent = Intent()

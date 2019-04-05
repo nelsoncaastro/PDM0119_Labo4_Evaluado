@@ -34,17 +34,22 @@ class MainActivity : AppCompatActivity() {
             layout.setOnClickListener { refreshCount(Textviews[index]) }
         }
 
+
+
         sendbutton.setOnClickListener {
+
+            val senderjson: String = """
+            |{
+            |"username":"${fetchEditText(eusuario)}",
+            |"email":"${fetchEditText(ecorreo)}",
+            |"total":"${getTotal()}",
+            |"products":["${getInt(product1cont)}", "${getInt(product2cont)}", "${getInt(product3cont)}", "${getInt(product4cont)}", "${getInt(product5cont)}", "${getInt(product6cont)}", "${getInt(product7cont)}", "${getInt(product8cont)}", "${getInt(product9cont)}"]
+            |}
+            """.trimMargin()
+
             val sendIntent = Intent(this, ViewerActivity::class.java)
-            sendIntent.putExtra("username", fetchEditText(eusuario))
-            sendIntent.putExtra("email", fetchEditText(ecorreo))
-            sendIntent.putExtra("total", getTotal().toString())
-            sendIntent.putStringArrayListExtra("productos",
-                    ArrayList<String>().apply {
-                        for ((index, counter) in Textviews.withIndex()){
-                            add(index, getInt(counter).toString())
-                        }
-                    })
+            sendIntent.putExtra("json", senderjson)
+            sendIntent.type = "intern"
             startActivity(sendIntent)
         }
     }
