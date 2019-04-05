@@ -5,10 +5,11 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.widget.TextView
 import kotlinx.android.synthetic.main.activity_viewer.*
-import org.json.JSONArray
 import org.json.JSONObject
 
 class ViewerActivity : AppCompatActivity() {
+
+    fun identifyIntent(type: String): String = if (type == "json/plain") "json" else Intent.EXTRA_TEXT
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -16,7 +17,7 @@ class ViewerActivity : AppCompatActivity() {
 
         val recieverBundle = intent
         val Textviews: ArrayList<TextView> = arrayListOf(vproduct1cont, vproduct2cont, vproduct3cont, vproduct4cont, vproduct5cont, vproduct6cont, vproduct7cont, vproduct8cont, vproduct9cont)
-        val jsonroot = JSONObject(recieverBundle.getStringExtra("json"))
+        val jsonroot = JSONObject(recieverBundle.getStringExtra(identifyIntent(recieverBundle.type)))
         val jsonproducts = jsonroot.getJSONArray("products")
 
         vusuario.text = jsonroot.getString("username")
@@ -27,9 +28,7 @@ class ViewerActivity : AppCompatActivity() {
         }
 
         sharebutton.setOnClickListener {
-            val shareIntent = Intent()
-            shareIntent.action = Intent.ACTION_SEND
-            shareIntent.putExtra(Intent.EXTRA_TEXT,
+            val factura =
                     """FACTURA DE COMPRA
                         |
                         |Cliente: ${vusuario.text}
@@ -45,9 +44,12 @@ class ViewerActivity : AppCompatActivity() {
                         |Producto 9: ${vproduct9cont.text}
                         |
                         |Total de productos: ${vtotal.text}
-                    """.trimMargin())
+                    """.trimMargin()
+            val shareIntent = Intent()
+            shareIntent.action = Intent.ACTION_SEND
+            shareIntent.putExtra(Intent.EXTRA_TEXT, factura)
             shareIntent.type = "text/plain"
-            startActivity(Intent.createChooser(shareIntent, "Share ticket"))
+            if (shareIntent.resolveActivity(packageManager) != null) startActivity(shareIntent)
         }
     }
 

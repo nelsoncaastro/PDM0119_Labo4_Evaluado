@@ -34,8 +34,6 @@ class MainActivity : AppCompatActivity() {
             layout.setOnClickListener { refreshCount(Textviews[index]) }
         }
 
-
-
         sendbutton.setOnClickListener {
 
             val senderjson: String = """
@@ -49,7 +47,7 @@ class MainActivity : AppCompatActivity() {
 
             val sendIntent = Intent(this, ViewerActivity::class.java)
             sendIntent.putExtra("json", senderjson)
-            sendIntent.type = "intern"
+            sendIntent.type = "json/plain"
             startActivity(sendIntent)
         }
     }
